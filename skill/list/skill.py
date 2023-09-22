@@ -3,6 +3,7 @@ import abc
 from agent import Message
 from config.project_config import llms, cur_llm
 from llm.llm import LLM
+from message.message_manager import MessageManager
 
 
 class Skill:
@@ -10,7 +11,7 @@ class Skill:
         self.llm: LLM = llms.get(cur_llm)
 
     @abc.abstractmethod
-    async def act(self, ws) -> Message | str:
+    async def act(self, messageManager: MessageManager) -> Message | str:
         """
         由子类实现，执行技能
         :return:

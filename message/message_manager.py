@@ -1,17 +1,17 @@
 import abc
 
 
-class Message:
+class MessageManager:
 
     @abc.abstractmethod
-    def recv(self) -> str:
+    async def recv(self) -> str:
         """
         接收消息
         :return:
         """
 
     @abc.abstractmethod
-    def send(self, message):
+    async def send(self, message):
         """
         发送消息
         :return:

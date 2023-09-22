@@ -1,9 +1,9 @@
 from agent import EXTRA_TYPE_NONE, Message
 from config.project_config import project
 from context import MessageContext
-from skill.code_interpreter import CodeInterpreter
-from skill.interrupt_skill.interrupt_skill import InterruptSkill
-from skill.skill import send_robot_message
+from skill.list.code_interpreter import CodeInterpreter
+from skill.list.interrupt_skill import InterruptSkill
+from skill.list.skill import send_robot_message
 
 
 class RunCode(CodeInterpreter, InterruptSkill):
@@ -12,7 +12,7 @@ class RunCode(CodeInterpreter, InterruptSkill):
     def describe(self) -> str:
         return "当用户需求完成后，可以选择这个技能。"
 
-    async def act(self, ws) -> Message:
+    async def act(self, messageManager) -> Message:
         self.interpreter.reset()
         self.interpreter.load(
             [{"role": "user", "content": msg.content}
@@ -26,4 +26,4 @@ class RunCode(CodeInterpreter, InterruptSkill):
             用户的项目路径为：{project['project_path']},
         """
         self.interpreter.chat(message)
-        return await send_robot_message(ws, '成功执行', EXTRA_TYPE_NONE, [])
+        return await send_robot_message(messageManager, '成功执行', EXTRA_TYPE_NONE, [])

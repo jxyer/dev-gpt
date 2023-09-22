@@ -5,19 +5,16 @@ from prompt import Prompt
 from .skill import Skill
 
 
-class Learn(Skill):
-    FLAG = "学习"
+class MakePlan(Skill):
+    FLAG = "制定计划"
 
-    async def act(self, ws) -> Message | str:
-        schema = {
-
-        }
+    async def act(self, messageManager) -> Message | str:
         result = self.llm.chat_result(
             project['stream'],
             Prompt.responsibility(),
-            Prompt.is_know(message_record=MessageContext.format_message())
+            Prompt.make_plan(MessageContext.format_message())
         )
         return result
 
     def describe(self) -> str:
-        return "学习"
+        return "规划代码流程"

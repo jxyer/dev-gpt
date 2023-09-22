@@ -1,6 +1,6 @@
 from abc import ABC
 
-from skill.skill import Skill
+from skill.list.skill import Skill
 
 
 class InterruptSkill(Skill, ABC):

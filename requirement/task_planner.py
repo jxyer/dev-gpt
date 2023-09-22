@@ -1,13 +1,25 @@
+from context.project_context import ProjectContext
+from skill.list.make_plan import MakePlan
+from skill.list.think import Think
+from skill.skill_manager import SkillManager
+
+
 class TaskPlanner:
-    def __init__(self, requirement):
+    def __init__(self, message_manager, requirement):
         self.requirement = requirement
+        self.message_manager = message_manager
         pass
 
-    def make_plan(self):
+    async def make_plan(self):
         # 根据用户需求生成任务计划的代码，并返回任务计划列表
-        # 注意：此处应该返回一个计划列表，我假设这个列表是全局的，所以不需要作为参数传入
-        return self.plans
+        result = await SkillManager.useSkill(self.message_manager, MakePlan.FLAG)
+        return result
 
     def execute_plan(self, plans):
-        # 执行任务计划的代码
-        pass
+        for plan in plans:
+            # 执行任务计划的代码
+            ProjectContext.cur_plan = plan
+            # 思考计划使用什么功能
+            skill_name = await SkillManager.useSkill(self.message_manager, Think.FLAG)
+            # 执行技能
+            await SkillManager.useSkill(self.message_manager, skill_name)

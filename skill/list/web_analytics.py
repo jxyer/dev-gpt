@@ -7,5 +7,5 @@ class WebAnalytics(Skill):
     def describe(self) -> str:
         return "可以对网页进行分析，当你有不懂的知识时可以选择这个。"
 
-    async def act(self, ws) -> str:
+    async def act(self, messageManager) -> str:
         pass

@@ -1,7 +1,7 @@
-# 获取用户请求
 from requirement.user_requirement_handler import UserRequirementHandler
 
 urh = UserRequirementHandler()
+# 获取用户请求
 user_requirement = urh.get_user_requirement()
 # todo 验证用户请求
 
