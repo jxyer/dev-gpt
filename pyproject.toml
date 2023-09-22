@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "dev-gpt"
+version = "0.1.0"
+description = ""
+authors = ["江宇豪 <jiangyhn@digitalchina.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
