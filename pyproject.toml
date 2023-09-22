@@ -2,7 +2,7 @@
 name = "dev-gpt"
 version = "0.1.0"
 description = ""
-authors = ["江宇豪 <jiangyhn@digitalchina.com>"]
+authors = ["jxy <2733167316@qq.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
