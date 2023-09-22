@@ -3,7 +3,8 @@ from llm.gpt import GPT
 project = {
     'project_path': "F:\\generate__project\\test",
     'stream': True,
-    'OPENAI_API_KEY':'sk-xxx'
+    'OPENAI_API_KEY': 'sk-x',
+    'user_message': 'console'
 }
 # 模型
 llms = {

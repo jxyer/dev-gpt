@@ -138,4 +138,7 @@ dmypy.json
 # macOS display setting files
 .DS_Store
 
+# poetry
+poetry.lock
+
 
