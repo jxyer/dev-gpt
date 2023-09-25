@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 langchain = "^0.0.299"
+openai = "^0.28.0"
+open-interpreter = "^0.1.5"
 
 
 [build-system]

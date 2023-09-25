@@ -36,7 +36,7 @@ class UserRequirementHandler:
         # 根据用户需求列出任务计划
         plans = taskPlanner.make_plan()
         # 执行任务计划
-        taskPlanner.execute_plan(plans)
+        await taskPlanner.execute_plan(plans)
 
     def sendHandleResult(self, handle_result):
         pass

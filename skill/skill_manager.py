@@ -20,3 +20,14 @@ class SkillManager:
         skill = SkillManager.skill_dict.get(skill_name)
         result = await skill.act(messageManager)
         print('技能执行结果：' + result)
+
+    @staticmethod
+    def get_skills_name() -> list[str]:
+        return list(SkillManager.skill_dict.keys())
+
+    @staticmethod
+    def get_skills_describes() -> list[str]:
+        skill_describes = []
+        for key, value in SkillManager.skill_dict.items():
+            skill_describes.append(f"{key}:{value.describe()}")
+        return skill_describes

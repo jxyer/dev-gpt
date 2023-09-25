@@ -1,15 +1,10 @@
-import os
-
 from langchain.chains.openai_functions import create_structured_output_chain
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts.chat import (
     BaseMessage, ChatPromptTemplate, HumanMessagePromptTemplate
 )
 
-from config.project_config import project
 from llm.llm import LLM
-
-os.environ["OPENAI_API_KEY"] = project['OPENAI_API_KEY']
 
 
 class GPT(LLM):

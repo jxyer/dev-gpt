@@ -1,9 +1,9 @@
 from agent import EXTRA_TYPE_LIST, EXTRA_TYPE_NONE
 from agent.think import ThinkSchema
-from config.skill_config import get_skills_describes, get_skills_name
-from context import MessageContext
-from prompt import Prompt
+from context import ProjectContext
+from prompt.prompt import Prompt
 from .skill import Skill, send_system_message, send_robot_message
+from ..skill_manager import SkillManager
 
 
 class Think(Skill):
@@ -18,13 +18,13 @@ class Think(Skill):
         :param messageManager:
         :return: 技能名称
         """
-        skills = get_skills_name()
+        skills = SkillManager.get_skills_name()
         result = self.llm.structured_output(
             ThinkSchema,
             Prompt.responsibility(),
             Prompt.think(
-                requirement=MessageContext.message_record[0].content, message_record=MessageContext.format_message(),
-                skills=skills, skills_describes=get_skills_describes())
+                requirement=ProjectContext.cur_plan,
+                skills=skills, skills_describes=SkillManager.get_skills_describes())
         )
         await send_robot_message(messageManager, result.reason, EXTRA_TYPE_NONE, [])
         if result.skill in skills:

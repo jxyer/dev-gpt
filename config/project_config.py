@@ -1,9 +1,11 @@
+import os
+
 from llm.gpt import GPT
 
+os.environ["OPENAI_API_KEY"] = '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'
 project = {
     'project_path': "F:\\generate__project\\test",
     'stream': True,
-    'OPENAI_API_KEY': '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',
     'user_message': 'console'
 }
 # 模型

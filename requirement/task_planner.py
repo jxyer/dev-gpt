@@ -15,7 +15,7 @@ class TaskPlanner:
         result = await SkillManager.useSkill(self.message_manager, MakePlan.FLAG)
         return result
 
-    def execute_plan(self, plans):
+    async def execute_plan(self, plans):
         for plan in plans:
             # 执行任务计划的代码
             ProjectContext.cur_plan = plan

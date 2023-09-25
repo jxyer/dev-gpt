@@ -1,7 +1,7 @@
 from agent import Message, EXTRA_TYPE_NONE
 from config.project_config import project
-from context import MessageContext
-from prompt import Prompt
+from context import ProjectContext
+from prompt.prompt import Prompt
 from .code_interpreter import CodeInterpreter
 from .skill import send_robot_message
 
@@ -14,6 +14,6 @@ class CreateMenu(CodeInterpreter):
 
     async def act(self, messageManager) -> Message:
         self.interpreter.reset()
-        result = self.interpreter.chat(Prompt.created_menu(message_record=MessageContext.format_message(),
+        result = self.interpreter.chat(Prompt.created_menu(plan=ProjectContext.cur_plan,
                                                            project_path=project['project_path']), True)
         return await send_robot_message(messageManager, f"已经成功执行创建目录${result[-1]['content']}", EXTRA_TYPE_NONE, [])

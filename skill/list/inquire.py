@@ -26,7 +26,6 @@ class Inquire(Skill):
             "answer":"answer"
         },...]
         """
-        qa_json = await ws.recv()
+        qa_json = await messageManager.recv()
         print("qa_json", qa_json)
-
         return question_message

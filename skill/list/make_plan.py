@@ -1,7 +1,7 @@
 from agent import Message
 from config.project_config import project
-from context import MessageContext
-from prompt import Prompt
+from context import ProjectContext
+from prompt.prompt import Prompt
 from .skill import Skill
 
 
@@ -12,7 +12,7 @@ class MakePlan(Skill):
         result = self.llm.chat_result(
             project['stream'],
             Prompt.responsibility(),
-            Prompt.make_plan(MessageContext.format_message())
+            Prompt.make_plan(ProjectContext.requirement)
         )
         return result
 

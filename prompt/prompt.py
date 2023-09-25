@@ -54,17 +54,13 @@ class Prompt:
             """.format(requirement=requirement))
 
     @staticmethod
-    def think(requirement, message_record, skills, skills_describes):
+    def think(requirement, skills, skills_describes):
         return HumanMessage(content="""
         First, you need to refer to the user's requirements. Then, in conjunction with the chat log 
         (which contains the current project's progress; do not repeat actions if the current plan is already completed),
         list out the next steps. Based on the plan, choose an appropriate skill to execute it. 
         You can refer to the skill descriptions to select a suitable skill.
         Here is the user requirement: ```{requirement}```
-        Here is the conversation records:\n
-        ```
-        {message_record}
-        ```
         Here is the list of skills:\n
         ```
         {skills}
@@ -73,21 +69,21 @@ class Prompt:
         ```
         {skills_describes}
         ```
-        """.format(requirement=requirement, message_record=message_record, skills=skills,
+        """.format(requirement=requirement, skills=skills,
                    skills_describes=skills_describes))
 
     @staticmethod
-    def created_menu(message_record, project_path):
+    def created_menu(plan, project_path):
         return """
         你需要在用户的项目路径下创建代码目录和文件。
         你可以参考聊天记录，分析没有创建的文件、目录，然后去创建它，你不可能一次完成所有工作，你应该一步一步来创建，不需要一次性创建他们，
         创建完成后你可以说明你创建了哪些目录。
         这是聊天记录：\n
         ```
-        {message_record}。
+        {plan}。
         ```
         用户项目路径：'{project_path}'
-        """.format(message_record=message_record, project_path=project_path)
+        """.format(plan=plan, project_path=project_path)
 
     @staticmethod
     def check_task(message_record):
