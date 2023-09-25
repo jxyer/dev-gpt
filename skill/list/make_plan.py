@@ -12,7 +12,7 @@ class MakePlan(Skill):
         result = self.llm.chat_result(
             project['stream'],
             Prompt.responsibility(),
-            Prompt.make_plan(ProjectContext.requirement)
+            Prompt.make_plan(ProjectContext.requirement, ProjectContext.detailRequirement)
         )
         return result
 

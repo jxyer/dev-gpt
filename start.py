@@ -6,7 +6,7 @@ from requirement.user_requirement_handler import UserRequirementHandler
 async def run():
     urh = UserRequirementHandler()
     # 获取用户请求
-    user_requirement = urh.get_user_requirement()
+    user_requirement = await urh.get_user_requirement()
     # todo 验证用户请求
 
     # 处理用户请求

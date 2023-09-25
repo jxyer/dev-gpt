@@ -1,5 +1,5 @@
-from agent import Message
 from agent.inquire import InquireSchema
+from agent.qa import QA
 from context.project_context import ProjectContext
 
 from prompt.prompt import Prompt
@@ -12,20 +12,17 @@ class Inquire(Skill):
     def describe(self) -> str:
         return "当你对用户需求不明确时，可以选择这个功能。"
 
-    async def act(self, messageManager) -> Message:
+    async def act(self, messageManager) -> list[QA]:
         result = self.llm.structured_output(
             InquireSchema,
             Prompt.responsibility(),
             Prompt.Skill.inquire(requirement=ProjectContext.requirement)
         )
-        question_message = await messageManager.send(result)
-        """
-        qa_json: 
-        [{
-            "question":"question",
-            "answer":"answer"
-        },...]
-        """
-        qa_json = await messageManager.recv()
-        print("qa_json", qa_json)
-        return question_message
+        qa: list[QA] = []
+        for question in result.question:
+            await messageManager.send(question)
+            answer = await messageManager.recv()
+            qa.append(QA(question, answer))
+            print('qa', qa)
+        ProjectContext.detailRequirement = qa
+        return qa

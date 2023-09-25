@@ -24,17 +24,17 @@ class UserRequirementHandler:
                                    f'The key should be present when the project is initialized. '
                                    f'Project dictionary: {project}')
 
-    def get_user_requirement(self):
-        return self.message_manager.recv()
+    async def get_user_requirement(self):
+        return await self.message_manager.recv()
 
     async def handle_user_requirement(self, requirement):
         ProjectContext.requirement = requirement
         # 询问具体要求
-        requirement = await self.inquire_requirement()
+        await self.inquire_requirement()
 
-        taskPlanner = TaskPlanner(self.message_manager, requirement)
+        taskPlanner = TaskPlanner(self.message_manager)
         # 根据用户需求列出任务计划
-        plans = taskPlanner.make_plan()
+        plans = await taskPlanner.make_plan()
         # 执行任务计划
         await taskPlanner.execute_plan(plans)
 

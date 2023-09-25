@@ -1,7 +1,7 @@
 from agent import Message, EXTRA_TYPE_NONE
 from config.project_config import project
-from context import MessageContext
-from prompt import Prompt
+from context import ProjectContext
+from prompt.prompt import Prompt
 from skill.list.interrupt_skill import InterruptSkill
 from skill.list.skill import send_robot_message
 
@@ -16,6 +16,6 @@ class WriteCode(InterruptSkill):
         result = self.llm.chat_result(
             project['stream'],
             Prompt.responsibility(),
-            Prompt.Skill.write_code(message_record=[f"{m.profile}说：{m.content}" for m in MessageContext.message_record])
+            Prompt.Skill.write_code(message_record=ProjectContext.cur_plan)
         )
         return await send_robot_message(messageManager, result, EXTRA_TYPE_NONE, [])

@@ -5,10 +5,8 @@ from skill.skill_manager import SkillManager
 
 
 class TaskPlanner:
-    def __init__(self, message_manager, requirement):
-        self.requirement = requirement
+    def __init__(self, message_manager):
         self.message_manager = message_manager
-        pass
 
     async def make_plan(self):
         # 根据用户需求生成任务计划的代码，并返回任务计划列表
