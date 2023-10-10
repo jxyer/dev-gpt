@@ -30,7 +30,7 @@ class UserRequirementHandler:
     async def handle_user_requirement(self, requirement):
         ProjectContext.requirement = requirement
         # 询问具体要求
-        await self.inquire_requirement()
+        ProjectContext.detail_requirement = await self.inquire_requirement()
 
         taskPlanner = TaskPlanner(self.message_manager)
         # 根据用户需求列出任务计划

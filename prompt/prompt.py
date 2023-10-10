@@ -1,5 +1,7 @@
 from langchain.schema import SystemMessage, HumanMessage
 
+from context import ProjectContext
+
 
 class Prompt:
 
@@ -36,23 +38,25 @@ class Prompt:
 
     class Skill:
         @staticmethod
-        def write_code(message_record: str):
+        def write_code():
             return HumanMessage(content="""
                 Requirement: Based on conversation records, implement one following code file, note to return only in code form, your code will be part of the entire project, so please implement complete, reliable, reusable code snippets
                 conversation records is as follows:\n
                 ```
                 {message_record}
                 ```
-            """.format(message_record=message_record))
+            """.format(message_record=ProjectContext.format_detail_requirement()))
 
         @staticmethod
         def inquire(requirement):
             return HumanMessage(content="""
-                你需要编写代码完成用户的需求。
-                但你对用户的需求不是特别的清楚，现在你可以提出0-5个对这个需求不知道的问题，尽可能保证用户的需求能够完成。
-                提出的问题描述尽量清楚一些。
-                用户的需求为：'{requirement}'。
-            """.format(requirement=requirement))
+                我的需求是{requirement}。
+                这是我们的沟通记录:{message_record}。
+                这是当前正在执行的计划:{plan}
+                你现在需要提出最适合的0-6个问题，来帮助我更好的完成这个需求和计划。
+            """.format(requirement=requirement,
+                       message_record=ProjectContext.format_detail_requirement(),
+                       plan=ProjectContext.cur_plan))
 
     @staticmethod
     def think(requirement, skills, skills_describes):
@@ -70,8 +74,14 @@ class Prompt:
         ```
         {skills_describes}
         ```
-        """.format(requirement=requirement, skills=skills,
-                   skills_describes=skills_describes))
+        Here are the chat log:\n
+        ```
+        {message_record}
+        ```
+        """.format(requirement=requirement,
+                   skills=skills,
+                   skills_describes=skills_describes,
+                   message_record=ProjectContext.format_detail_requirement()))
 
     @staticmethod
     def created_menu(plan, project_path):
@@ -98,7 +108,7 @@ class Prompt:
 
     @staticmethod
     def is_know(message_record):
-        return HumanMessage(content=f"""
+        return HumanMessage(content="""
         根据聊天记录你是否了解其中的知识呢？
         
         这有聊天记录：\n
@@ -108,15 +118,9 @@ class Prompt:
         """.format(message_record=message_record))
 
     @staticmethod
-    def make_plan(requirement, message_record):
-        return HumanMessage(content=f"""
-        你需要根据用户的需求和聊天记录去制定一个详细的计划。
-        用户需求如下：\n
-        ```
-        {requirement}
-        ```
-        用户聊天记录如下：
-        ```
-        {message_record}
-        ```
-        """.format(requirement=requirement, message_record=message_record))
+    def make_plan(requirement):
+        return HumanMessage(content="""
+        我的需求是{requirement}。
+        这是我们的沟通记录: {message_record}。
+        现在需要你帮我列出最完美的计划来帮我完成这个需求。
+        """.format(requirement=requirement, message_record=ProjectContext.format_detail_requirement()))

@@ -12,10 +12,10 @@ class WriteCode(InterruptSkill):
     def describe(self) -> str:
         return """当需要写代码时选择这个技能"""
 
-    async def act(self, messageManager) -> Message:
+    async def act(self, message_manager) -> Message:
         result = self.llm.chat_result(
             project['stream'],
             Prompt.responsibility(),
-            Prompt.Skill.write_code(message_record=ProjectContext.cur_plan)
+            Prompt.Skill.write_code()
         )
-        return await send_robot_message(messageManager, result, EXTRA_TYPE_NONE, [])
+        return await send_robot_message(message_manager, result, EXTRA_TYPE_NONE, [])

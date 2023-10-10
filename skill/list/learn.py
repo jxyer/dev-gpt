@@ -8,7 +8,7 @@ from .skill import Skill
 class Learn(Skill):
     FLAG = "学习"
 
-    async def act(self, messageManager) -> Message | str:
+    async def act(self, message_manager) -> Message | str:
         schema = {
 
         }

@@ -1,5 +1,5 @@
 from agent import Message
-from config.project_config import project
+from agent.plan import PlanSchema
 from context import ProjectContext
 from prompt.prompt import Prompt
 from .skill import Skill
@@ -8,13 +8,13 @@ from .skill import Skill
 class MakePlan(Skill):
     FLAG = "制定计划"
 
-    async def act(self, messageManager) -> Message | str:
-        result = self.llm.chat_result(
-            project['stream'],
+    async def act(self, message_manager) -> Message | str:
+        result = self.llm.structured_output(
+            PlanSchema,
             Prompt.responsibility(),
-            Prompt.make_plan(ProjectContext.requirement, ProjectContext.detailRequirement)
+            Prompt.make_plan(ProjectContext.requirement)
         )
-        return result
+        return result.plans
 
     def describe(self) -> str:
         return "规划代码流程"

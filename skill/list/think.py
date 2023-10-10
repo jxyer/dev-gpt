@@ -10,12 +10,12 @@ class Think(Skill):
     FLAG = '思考'
 
     def describe(self) -> str:
-        pass
+        return "决定使用什么技能"
 
-    async def act(self, messageManager) -> str:
+    async def act(self, message_manager) -> str:
         """
         返回使用技能名称
-        :param messageManager:
+        :param message_manager:
         :return: 技能名称
         """
         skills = SkillManager.get_skills_name()
@@ -26,11 +26,11 @@ class Think(Skill):
                 requirement=ProjectContext.cur_plan,
                 skills=skills, skills_describes=SkillManager.get_skills_describes())
         )
-        await send_robot_message(messageManager, result.reason, EXTRA_TYPE_NONE, [])
+        await send_robot_message(message_manager, result.reason, EXTRA_TYPE_NONE, [])
         if result.skill in skills:
             skill_name = result.skill
         else:
             hint = f"请根据上面描述，选择一个合适技能让ai去使用。"
-            await send_system_message(messageManager, hint, EXTRA_TYPE_LIST, skills)
-            skill_name = await messageManager.recv()
+            await send_system_message(message_manager, hint, EXTRA_TYPE_LIST, skills)
+            skill_name = await message_manager.recv()
         return skill_name

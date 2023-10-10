@@ -14,14 +14,14 @@ class SkillManager:
         WriteCode.FLAG: WriteCode(),
         CreateMenu.FLAG: CreateMenu(),
         RunCode.FLAG: RunCode(),
-        MakePlan.FLAG: MakePlan()
+        MakePlan.FLAG: MakePlan(),
     }
 
     @staticmethod
     async def useSkill(messageManager: MessageManager, skill_name: str):
         skill = SkillManager.skill_dict.get(skill_name)
         result = await skill.act(messageManager)
-        print('技能执行结果：', result)
+        return result
 
     @staticmethod
     def get_skills_name() -> list[str]:

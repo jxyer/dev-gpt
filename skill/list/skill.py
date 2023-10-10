@@ -11,7 +11,7 @@ class Skill:
         self.llm: LLM = llms.get(cur_llm)
 
     @abc.abstractmethod
-    async def act(self, messageManager: MessageManager) -> Message | str:
+    async def act(self, message_manager: MessageManager) -> Message | str:
         """
         由子类实现，执行技能
         :return:
@@ -25,21 +25,21 @@ class Skill:
         """
 
 
-async def send_robot_message(ws, message, extra_type, extra_data) -> Message:
+async def send_robot_message(message_manager: MessageManager, message, extra_type, extra_data) -> Message:
     m = Message(message_id=Message.generate_id(),
                 profile='Robot',
                 content=message,
                 extra_type=extra_type,
                 extra_data=extra_data)
-    await ws.send(m.model_dump_json())
+    await message_manager.send(m.model_dump_json())
     return m
 
 
-async def send_system_message(ws, message, extra_type, extra_data) -> Message:
+async def send_system_message(message_manager: MessageManager, message, extra_type, extra_data) -> Message:
     m = Message(message_id=Message.generate_id(),
                 profile='System',
                 content=message,
                 extra_type=extra_type,
                 extra_data=extra_data)
-    await ws.send(m.model_dump_json())
+    await message_manager.send(m.model_dump_json())
     return m

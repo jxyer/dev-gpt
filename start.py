@@ -14,6 +14,5 @@ async def run():
     # 发送处理结果
     urh.sendHandleResult(handle_result)
 
-
 if __name__ == '__main__':
     asyncio.run(run())
