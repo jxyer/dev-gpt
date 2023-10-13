@@ -16,6 +16,6 @@ class WriteCode(InterruptSkill):
         result = self.llm.chat_result(
             project['stream'],
             Prompt.responsibility(),
-            Prompt.Skill.write_code()
+            Prompt.Skill.write_code(ProjectContext.cur_plan)
         )
         return await send_robot_message(message_manager, result, EXTRA_TYPE_NONE, [])

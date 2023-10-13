@@ -31,12 +31,15 @@ class UserRequirementHandler:
         ProjectContext.requirement = requirement
         # 询问具体要求
         ProjectContext.detail_requirement = await self.inquire_requirement()
-
+        # pop历史记录
         taskPlanner = TaskPlanner(self.message_manager)
-        # 根据用户需求列出任务计划
+        # 根据用户需求定制代码计划
         plans = await taskPlanner.make_plan()
-        # 执行任务计划
-        await taskPlanner.execute_plan(plans)
+        for plan in plans:
+            # 执行代码计划
+            plan_result = await taskPlanner.execute_plan(plan)
+            # 人工检测
+            await taskPlanner.human_review(plan_result)
 
     def sendHandleResult(self, handle_result):
         pass

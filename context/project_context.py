@@ -2,9 +2,10 @@ from agent.qa import QA
 
 
 class ProjectContext:
-    requirement: str
-    cur_plan: str
+    requirement: str = ""
+    cur_plan: str = ""
     detail_requirement: list[QA] = []
+    message_record = []
 
     @staticmethod
     def format_detail_requirement() -> list[str]:

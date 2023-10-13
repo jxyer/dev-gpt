@@ -1,9 +1,17 @@
-from langchain.schema import SystemMessage, HumanMessage
+from langchain.schema import SystemMessage, HumanMessage, AIMessage
 
 from context import ProjectContext
 
 
 class Prompt:
+
+    @staticmethod
+    def HumanMessage(prompt):
+        return HumanMessage(content=prompt)
+
+    @staticmethod
+    def AIMessage(prompt):
+        return AIMessage(content=prompt)
 
     @staticmethod
     def responsibility():
@@ -38,14 +46,15 @@ class Prompt:
 
     class Skill:
         @staticmethod
-        def write_code():
+        def write_code(requirement):
             return HumanMessage(content="""
-                Requirement: Based on conversation records, implement one following code file, note to return only in code form, your code will be part of the entire project, so please implement complete, reliable, reusable code snippets
-                conversation records is as follows:\n
+                我的需求是{requirement},
+                请根据我们之前的聊天记录中的需求，编写代码以满足我们的要求。
+                你可以参考以下聊天记录来获取具体的需求信息。
                 ```
                 {message_record}
                 ```
-            """.format(message_record=ProjectContext.format_detail_requirement()))
+            """.format(requirement=requirement, message_record=ProjectContext.format_detail_requirement()))
 
         @staticmethod
         def inquire(requirement):
@@ -122,5 +131,5 @@ class Prompt:
         return HumanMessage(content="""
         我的需求是{requirement}。
         这是我们的沟通记录: {message_record}。
-        现在需要你帮我列出最完美的计划来帮我完成这个需求。
+        现在需要你帮我制定最完美的计划来帮我完成这个需求。
         """.format(requirement=requirement, message_record=ProjectContext.format_detail_requirement()))

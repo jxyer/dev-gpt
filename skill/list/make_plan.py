@@ -14,7 +14,7 @@ class MakePlan(Skill):
             Prompt.responsibility(),
             Prompt.make_plan(ProjectContext.requirement)
         )
-        return result.plans
+        return result
 
     def describe(self) -> str:
         return "规划代码流程"

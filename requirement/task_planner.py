@@ -1,6 +1,10 @@
+from config.project_config import project
 from context.project_context import ProjectContext
+from llm.gpt import GPT
+from prompt.prompt import Prompt
 from skill.list.make_plan import MakePlan
 from skill.list.think import Think
+from skill.list.write_code import WriteCode
 from skill.skill_manager import SkillManager
 
 
@@ -14,14 +18,24 @@ class TaskPlanner:
         print("执行计划：", result)
         return result
 
-    async def execute_plan(self, plans):
-        for plan in plans:
-            print("当前计划：", plan)
-            # 执行任务计划的代码
-            ProjectContext.cur_plan = plan
-            # 思考计划使用什么功能
-            skill_name = await Think().act(self.message_manager)
-            print("使用技能：", skill_name)
-            # 执行技能
-            await SkillManager.useSkill(self.message_manager, skill_name)
-            print(f"{plan} 已经完成")
+    async def execute_plan(self, plan):
+        # 执行任务计划的代码
+        ProjectContext.cur_plan = plan
+        print("当前计划：", plan)
+        # 思考计划使用什么功能
+        skill_name = await Think().act(self.message_manager)
+        print("使用技能：", skill_name)
+        # 执行技能
+        result = await SkillManager.useSkill(self.message_manager, skill_name)
+        return result
+
+    async def human_review(self, plan_result):
+        gpt = GPT()
+        message_record = [Prompt.AIMessage(plan_result)]
+        while True:
+            message = self.message_manager.recv()
+            if message == 'end':
+                break
+            message_record.append(Prompt.HumanMessage(message))
+            result = gpt.chat_result(project['stream'], *message_record)
+            message_record.append(Prompt.AIMessage(result))
