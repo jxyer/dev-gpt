@@ -2,7 +2,7 @@ import os
 
 from llm.gpt import GPT
 
-os.environ["OPENAI_API_KEY"] = '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'
+os.environ["OPENAI_API_KEY"] = 'sk-xxx'
 project = {
     'project_path': "F:\\generate__project\\test",
     'stream': True,
