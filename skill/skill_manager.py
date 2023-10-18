@@ -1,3 +1,4 @@
+from agent import Message
 from message.message_manager import MessageManager
 from skill.list.create_menu import CreateMenu
 from skill.list.inquire import Inquire
@@ -18,7 +19,7 @@ class SkillManager:
     }
 
     @staticmethod
-    async def useSkill(messageManager: MessageManager, skill_name: str):
+    async def useSkill(messageManager: MessageManager, skill_name: str) -> Message:
         skill = SkillManager.skill_dict.get(skill_name)
         result = await skill.act(messageManager)
         return result

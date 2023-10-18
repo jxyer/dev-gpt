@@ -63,6 +63,7 @@ class Prompt:
                 这是我们的沟通记录:{message_record}。
                 这是当前正在执行的计划:{plan}
                 你现在需要提出最适合的0-6个问题，来帮助我更好的完成这个需求和计划。
+                问题最好携带一些选项来让我选择。
             """.format(requirement=requirement,
                        message_record=ProjectContext.format_detail_requirement(),
                        plan=ProjectContext.cur_plan))
@@ -106,14 +107,15 @@ class Prompt:
         """.format(plan=plan, project_path=project_path)
 
     @staticmethod
-    def check_task(message_record):
+    def check_plan(plan, plan_result):
         return HumanMessage(content="""
-        You need to determine whether the user's task has been completed based on the chat record. Please output True or False
+        You need to determine whether the user's plan has been completed based on the plan_result. Please output True or False
+        Here is the user's plan: {plan}.
         Here is the conversation records:\n
         ```
-        {message_record}
+        {plan_result}
         ```
-        """.format(message_record=message_record))
+        """.format(plan=plan, plan_result=plan_result))
 
     @staticmethod
     def is_know(message_record):
